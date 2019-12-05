@@ -1,0 +1,721 @@
+;{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>FxTrain</title>
+	<link rel="stylesheet" href="">
+	<!-- Bootstrap CSS -->
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+		
+	<main role = "main" class="container" style="background-color: #FDFDFD; border-left: 10px; border-right: 10px; border-style: solid; border-color: #BCBCBC; " >
+
+
+		<div class="row" style="background-color: #FDFDFD;">
+			      <div class="col-8" style="background-color: #FDFDFD; opacity: .9; margin: 0;">
+			            <button class="btn btn-outline-success" type="submit" style="border-radius: 5px; border-color: black; margin-left: 00px; width: 80px; margin-bottom: 2px;" id="IndexBuyButton" onclick="clickedToolBuyButton()">Buy</button>
+			            <button class="btn btn-outline-danger" type="submit" style="border-radius: 5px; border-color: black; width: 80px; margin-bottom: 2px;" id="IndexShortButton" onclick="clickedToolSellButton()">Short</button>
+			            <button class="btn btn-outline-Secondary" type="submit" style="border-radius: 5px; border-color: black; margin-left: 0px; width: 80px; margin-bottom: 2px;" id="IndexSellButton" onclick="clickedIndexSellButton()">Sell</button>
+			            <button class="btn btn-outline-Secondary" type="submit" style="border-radius: 5px; border-color: black; width: 80px; margin-bottom: 2px;" id="IndexCoverButton" onclick="clickedToolCoverButton()">Cover</button> 
+			            <button class="btn btn-outline-primary" type="submit" style="border-radius: 5px; border-color: black; width: 95px; margin-bottom: 2px;" id="IndexWaitButton" onclick="clickedToolWaitButton()">Wait-Hold</button>
+			            <input type="text" id = "lotInput">
+			            <button class="btn btn-outline-Info" onclick="LotSizeFunction()">Set lot size</button>
+			            <div id="IndexChartToolDiv" style="height: 400px; margin-right: 0px; margin-top: 20px;"></div>
+			            <p id="IndexBalance" style="font-size: 16px; font-weight: bold;"> Your equity is : 00.00000 Dollars &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Your balance is 0 Dollars.</p>
+			            <a id="YourCurrentLotSize" style="text-align: center; font-size: 16px; font-weight: bold;"></a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <a id="YourCurrentPositionSize" style="text-align: center; font-size: 16px; font-weight: bold;"></a>
+			      </div>
+			      <div class="col" id="TrainingText" style="font-size: 15px; color: #333333; background-color: #FDFDFD; opacity: 1; margin-top: 60px;">
+			            <h4>AAPL</h4>
+			            <h5>4 hour timeframe timeframe</h5>
+			            <p>After market close <a href="https://www.apple.com/newsroom/2019/04/apple-reports-second-quarter-results/">Apple announces earnings</a> and surprises Earnings per share by 0.31% of estimates</p>
+			            <p>The issue of the "Trade war" has been scilent for a while</p>
+			            <p>The news were announced after market close, your first move would be at the open of the next day.</p>
+			            <p>You should not trade before earnings, since you don't have proper information and it might be just gambling</p>
+
+						<button class="btn btn-outline-Info" onclick="ShowTimeframesFunction()" style="margin-left: 25.3%;">
+							See daily chart
+						</button>
+						<br><br>
+						<button class="btn btn-outline-Info" onclick="HideTimeframesFunction()" style="margin-left: 24.3%; display: ;" id="">
+							Hide daily chart
+						</button>	
+						<br><br>
+						<button class="btn btn-outline-Info" onclick="DrawLineFunction()" style="margin-left: 23.2%;" id="DrawLineButton">
+							Draw line on chart
+						</button>		
+						<input type="text" id = "drawLineInput" style="margin-left: 22%; margin-top: 5px;">					
+						
+						<button class="btn btn-outline-Info" onclick="RemoveLineFunction()" style="margin-left: 20.5%; margin-top: 5px; " id="RemoveLinesButton">
+							Remove lines on chart
+						</button>						
+
+			      </div>
+		</div>
+
+		<div class="row" id="ShowDailyChart" style="display: none;">
+			<div class="col-8">
+				<div id="IndexChartToolDivDaily" style="height: 400px; margin-right: 0px; margin-top: 20px;"></div>
+			</div>
+		</div>
+
+
+		<div class="row" id="NewsRow" style="margin-top: 30px; margin-left: 10px; margin-right: 10px; background-color: #F2ECFF; border-radius: 20px;">
+			<div class="col">
+				<h3 style="margin-left: 43%;">Recent news</h3>
+				<div id="newslist" style="font-size: 20px;">
+					
+				</div>
+			</div>
+		</div>
+
+	</main>
+
+
+</body>
+</html>
+
+
+<script>
+
+
+	
+	
+	var fullCloseArray4h = [{% for currency in hour4data %} '{{ currency.Close }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+	var fullHighArray4h = [{% for currency in hour4data %} '{{ currency.High }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+	var fullLowArray4h = [{% for currency in hour4data %} '{{ currency.Low }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+	var fullOpenArray4h = [{% for currency in hour4data %} '{{ currency.Open }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+	var fullMovingAverage4h = [{% for currency in hour4data %} '{{ currency.MovingAverage }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+	var fulldate4h = [{% for currency in hour4data %} '{{ currency.date }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+
+	var startCandleCount4h = 0;
+	var currentCandleCount4h = startCandleCount4h + 27;
+	var maxCandleCount4h = currentCandleCount4h + 25;
+
+	var closeArray4h = fullCloseArray4h.slice(startCandleCount4h,currentCandleCount4h);
+	var highArray4h = fullHighArray4h.slice(startCandleCount4h,currentCandleCount4h);
+	var lowArray4h = fullLowArray4h.slice(startCandleCount4h,currentCandleCount4h);
+	var openArray4h = fullOpenArray4h.slice(startCandleCount4h,currentCandleCount4h);
+	var MovingAverage4h = fullMovingAverage4h.slice(startCandleCount4h,currentCandleCount4h);
+	var date4h = fulldate4h.slice(startCandleCount4h,currentCandleCount4h);
+
+
+	var fullCloseArraydaily = [{% for currency in dailydata %} '{{ currency.Close }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+	var fullHighArraydaily = [{% for currency in dailydata %} '{{ currency.High }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+	var fullLowArraydaily = [{% for currency in dailydata %} '{{ currency.Low }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+	var fullOpenArraydaily = [{% for currency in dailydata %} '{{ currency.Open }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+	var fullMovingAveragedaily = [{% for currency in dailydata %} '{{ currency.MovingAverage }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+	var fulldatedaily = [{% for currency in dailydata %} '{{ currency.date }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+
+
+
+//NEWS BLOCK START
+
+	var newsDate = [{% for new in news %} '{{ new.date }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+	var newsTitle = [{% for new in news %} '{{ new.title }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+
+	var currentLastNewIndex = 6; // es manual
+	var currentNews = newsTitle.slice(0,currentLastNewIndex)
+
+	function getCurrentNews(newsDate,newsTitle){
+
+		
+		
+		for(nwDat = currentLastNewIndex; nwDat < newsDate.length;nwDat++ ){ //Mejorar esto con poner hora exacta cuando sale la news
+			if(newsDate[nwDat] == fulldate4h[currentCandleCount4h-2].slice(0,10)){ //Aquí se podría dar el problema de que se te acaba el array
+				currentLastNewIndex += 1;   ///SI ES FOREX (24h) ES -6 SI ES STOCK es -2 (8h)
+				if(currentLastNewIndex < newsDate.length){
+					var listtextnode = document.createElement('li')
+					listtextnode.innerHTML = newsTitle[currentLastNewIndex]
+					document.getElementById('newslist').appendChild(listtextnode);	
+				}
+				
+			}
+		}
+		
+
+
+	}
+
+	function makeUL(arrayTitle) {
+    // Create the list element:
+    var list = document.createElement('ul');
+
+    for (var i = 0; i < arrayTitle.length; i++) {
+        // Create the list item:
+        var item = document.createElement('li');
+
+        // Set its contents:
+        item.appendChild(document.createTextNode(arrayTitle[i]));
+
+        // Add it to the list:
+        list.appendChild(item);
+    }
+
+    // Finally, return the constructed list:
+    return list;
+}
+
+// Add the contents of options[0] to #foo:
+getCurrentNews(newsDate,newsTitle);
+document.getElementById('newslist').appendChild(makeUL(currentNews));
+
+//NEWS BLOCK END	
+
+///FIRST DAILY
+var startCandleCountdaily = 0;
+var xi = 0;
+for(xx = startCandleCountdaily; xx < fulldatedaily.length;xx++){
+	xi += 1;
+	if(date4h[date4h.length-2].slice(0,10) == fulldatedaily[xx].slice(0,10) ){
+		var currentCandleCountdaily = startCandleCountdaily + xi-1;
+		break;
+	}
+}
+
+
+
+var closeArraydaily = fullCloseArraydaily.slice(startCandleCountdaily,currentCandleCountdaily);
+var highArraydaily = fullHighArraydaily.slice(startCandleCountdaily,currentCandleCountdaily);
+var lowArraydaily = fullLowArraydaily.slice(startCandleCountdaily,currentCandleCountdaily);
+var openArraydaily = fullOpenArraydaily.slice(startCandleCountdaily,currentCandleCountdaily);
+var MovingAveragedaily = fullMovingAveragedaily.slice(startCandleCountdaily,currentCandleCountdaily);
+var datedaily = fulldatedaily.slice(startCandleCountdaily,currentCandleCountdaily);
+
+	function buildDailyChart(trace3dic){
+		var startCandleCountdaily = 0;
+		var xi = 0;
+		for(xx = startCandleCountdaily; xx < fulldatedaily.length;xx++){
+			xi += 1;
+			if(date4h[date4h.length-2].slice(0,10) == fulldatedaily[xx].slice(0,10) ){
+				var currentCandleCountdaily = startCandleCountdaily + xi;
+				break;
+			}
+		}
+
+	
+		closeArraydaily = fullCloseArraydaily.slice(startCandleCountdaily,currentCandleCountdaily);
+		highArraydaily = fullHighArraydaily.slice(startCandleCountdaily,currentCandleCountdaily);
+		lowArraydaily = fullLowArraydaily.slice(startCandleCountdaily,currentCandleCountdaily);
+		openArraydaily = fullOpenArraydaily.slice(startCandleCountdaily,currentCandleCountdaily);
+		MovingAveragedaily = fullMovingAveragedaily.slice(startCandleCountdaily,currentCandleCountdaily);
+		datedaily = fulldatedaily.slice(startCandleCountdaily,currentCandleCountdaily);
+
+		buildPlotly(currentCandleCountdaily,closeArraydaily,highArraydaily,lowArraydaily,openArraydaily,MovingAveragedaily,'IndexChartToolDivDaily',trace3dic,{showarrow:false,x:35,text:"",y:lowArraydaily[lowArraydaily.length-2]});
+	}
+
+	buildDailyChart({});
+
+
+//Build plotly:
+lowArray4h = fullLowArray4h.slice(startCandleCount4h,currentCandleCount4h);
+annotations4h =     	{
+	    	x: 27,
+	    	y: lowArray4h[lowArray4h.length-1],
+	    	text: "Apple announces earnings, surprises by 0.31%",
+	    	showarrow: true,
+	    	ax: 10,
+	    	ay: 70
+    	}
+
+function buildPlotly(currentCandleCount,closeArray,highArray,lowArray,openArray,MovingAverage,elementID,trace3dic,plotannotations){
+  //JAVASCRIPT CHART. 
+  var trace1 = {
+    
+    x: [0]*currentCandleCount, 
+    
+    close: closeArray, 
+    
+    decreasing: {line: {color: '#7F7F7F'}}, 
+    
+    high: highArray, 
+    
+    increasing: {line: {color: '#17BECF'}}, 
+    
+    line: {color: 'rgba(31,119,180,1)'}, 
+    
+    low: lowArray, 
+    
+    open: openArray, 
+    
+    type: 'candlestick', 
+    xaxis: 'x', 
+    yaxis: 'y',
+    hoverinfo: "none",
+    increasing: {line: {color: 'green'}},
+      decreasing: {line: {color: 'red'}},
+  };
+
+  trace2 = {
+    line: {width: 1}, 
+    mode: 'lines', 
+    name: 'Moving Average', 
+    type: 'scatter', 
+    y: MovingAverage, 
+    yaxis: 'y',
+    marker: {color: '#E377C2'},
+    hoverinfo: "none",
+  };
+
+  trace3 = trace3dic;
+
+  var plotlyData = [trace1,trace2,trace3];
+
+  var layout = {
+    dragmode: 'zoom', 
+    margin: {
+      r: 10, 
+      t: 25, 
+      b: 40, 
+      l: 60
+    }, 
+    showlegend: false, 
+    xaxis: {
+      autorange: true, 
+      domain: [0, 1], 
+      type: 'category',
+      rangeslider: {
+       visible: false
+     }
+    }, 
+    dragmode: "pan",
+    yaxis: {
+      type: 'linear',
+      autorange: true
+    },
+    title: "AAPL",
+    annotations:[
+    	plotannotations
+    ]
+
+
+  };
+
+  var config = {
+    'scrollZoom': true,
+  };
+
+  Plotly.plot(elementID, plotlyData, layout, config = config);
+
+}
+
+buildPlotly(currentCandleCount4h,closeArray4h,highArray4h,lowArray4h,openArray4h,MovingAverage4h,'IndexChartToolDiv',{},annotations4h);
+///--------------------------------
+
+
+function getSpread(Symbol){ //REVISA ESTO BIEN y hazlo
+  if(Symbol == "USDCHF"){
+    spread = 0.00020
+  } else if (Symbol == "GBPUSD") {
+    spread = .00020
+  } else if (Symbol == "") {
+  	spread = 0
+  }
+
+  return spread;
+}
+var lotSize = 1;
+document.getElementById("YourCurrentLotSize").innerHTML = "Your current lot size is: " + lotSize + " lots";
+
+function LotSizeFunction(){
+	var text = document.getElementById("lotInput").value;
+	lotSize = parseFloat(text);
+	document.getElementById("YourCurrentLotSize").innerHTML = "Your current lot size is: " + Math.abs(lotSize) + " lots";
+	return(text);
+}
+
+
+
+
+var equity = 0;
+var balance = 0;
+var currentPosition = 0;
+
+document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+
+function clickedToolBuyButton(){
+  var prevPrice = closeArray4h[closeArray4h.length -1];
+
+  if (currentCandleCount4h <= maxCandleCount4h){
+    currentCandleCount4h += 1;
+
+    closeArray4h.push(fullCloseArray4h[currentCandleCount4h]);
+    highArray4h.push(fullHighArray4h[currentCandleCount4h]);
+    lowArray4h.push(fullLowArray4h[currentCandleCount4h]);
+    openArray4h.push(fullOpenArray4h[currentCandleCount4h]);
+    MovingAverage4h.push(fullMovingAverage4h[currentCandleCount4h]);
+    date4h.push(fulldate4h[currentCandleCount4h]);
+
+    buildPlotly(currentCandleCount4h,closeArray4h,highArray4h,lowArray4h,openArray4h,MovingAverage4h,'IndexChartToolDiv',{},annotations4h);
+
+    var newPrice = closeArray4h[closeArray4h.length-1];
+
+    if(currentPosition < 0){
+    	return clickedToolCoverButton();
+    }
+
+    currentPosition += lotSize;
+    equity += (newPrice - prevPrice - getSpread("")) * currentPosition;
+
+    document.getElementById("IndexBalance").innerHTML = "Your equity is: " + equity.toFixed(5) + " Dollars &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Your balance is: " + balance.toFixed(5) + " Dollars.";
+    document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+
+    if(date4h[date4h.length-1].slice(0,10) != date4h[date4h.length-2].slice(0,10)){
+    	buildDailyChart({});
+    }
+
+    //BUILD NEWS
+    getCurrentNews(newsDate,newsTitle);
+
+  } else{
+  	balance += equity;
+    document.getElementById("IndexBalance").innerHTML = "Your final balance was: " + balance.toFixed(5) + " Dollars";
+    document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+  }
+
+  //document.getElementById("MyElement").className = "MyClass"; To change Sell Button color
+}
+
+function clickedIndexSellButton(){
+	if (currentCandleCount4h <= maxCandleCount4h){
+		if(currentPosition > 0){
+			if(lotSize >= currentPosition){
+				balance += equity;
+				equity = 0;
+				currentPosition = 0;
+				document.getElementById("IndexBalance").innerHTML = "Your equity is: " + equity.toFixed(5) + " Dollars &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Your balance is: " + balance.toFixed(5) + " Dollars.";
+				document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+			} else{
+				balance += equity * Math.abs(lotSize/currentPosition);	
+				equity = equity * Math.abs(lotSize/currentPosition) * (currentPosition- lotSize);
+				currentPosition -= lotSize;
+				document.getElementById("IndexBalance").innerHTML = "Your equity is: " + equity.toFixed(5) + " Dollars &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Your balance is: " + balance.toFixed(5) + " Dollars.";
+				document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+			}	
+		}
+	} else{
+		document.getElementById("IndexBalance").innerHTML = "Your final balance was: " + balance.toFixed(5) + " Dollars";
+	}
+}
+
+
+function clickedToolSellButton(){
+  var prevPrice = closeArray4h[closeArray4h.length -1];
+
+  if (currentCandleCount4h <= maxCandleCount4h){
+    currentCandleCount4h += 1;
+
+    closeArray4h.push(fullCloseArray4h[currentCandleCount4h]);
+    highArray4h.push(fullHighArray4h[currentCandleCount4h]);
+    lowArray4h.push(fullLowArray4h[currentCandleCount4h]);
+    openArray4h.push(fullOpenArray4h[currentCandleCount4h]);
+    MovingAverage4h.push(fullMovingAverage4h[currentCandleCount4h]);
+    date4h.push(fulldate4h[currentCandleCount4h]);
+
+    buildPlotly(currentCandleCount4h,closeArray4h,highArray4h,lowArray4h,openArray4h,MovingAverage4h,'IndexChartToolDiv',{},annotations4h);
+
+    var newPrice = closeArray4h[closeArray4h.length-1];
+
+
+	if(currentPosition > 0){
+    	return clickedIndexSellButton();
+    }
+
+
+    currentPosition -= lotSize;
+    equity += (prevPrice - newPrice - getSpread(""))* Math.abs(currentPosition);
+
+    document.getElementById("IndexBalance").innerHTML = "Your equity is: " + equity.toFixed(5) + " Dollars &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Your balance is: " + balance.toFixed(5) + " Dollars.";
+    document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+
+    if(date4h[date4h.length-1].slice(0,10) != date4h[date4h.length-2].slice(0,10)){
+    	buildDailyChart({});
+    }    
+	//BUILD NEWS
+    getCurrentNews(newsDate,newsTitle);
+	//ENDNEWSBUILD
+  } else{
+  	balance += equity;
+    document.getElementById("IndexBalance").innerHTML = "Your final balance was: " + balance.toFixed(5) + " Dollars";
+    document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+  }
+}
+
+function clickedToolCoverButton(){
+	if (currentCandleCount4h <= maxCandleCount4h){
+		if(currentPosition < 0){
+			if(lotSize >= Math.abs(currentPosition)){
+				balance += equity;
+				equity = 0;
+				currentPosition = 0;
+				document.getElementById("IndexBalance").innerHTML = "Your equity is: " + equity.toFixed(5) + " Dollars &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Your balance is: " + balance.toFixed(5) + " Dollars.";
+				document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+			} else{
+				balance += equity * Math.abs(lotSize/currentPosition);	
+				equity = equity * Math.abs(lotSize/currentPosition) * (Math.abs(currentPosition) - lotSize);
+				currentPosition += lotSize;
+				document.getElementById("IndexBalance").innerHTML = "Your equity is: " + equity.toFixed(5) + " Dollars &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Your balance is: " + balance.toFixed(5) + " Dollars.";
+				document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+			}	
+		}
+	} else{
+		document.getElementById("IndexBalance").innerHTML = "Your final balance was: " + balance.toFixed(5) + " Dollars";
+	}
+}
+
+function clickedToolWaitButton(){
+	
+	if (currentCandleCount4h <= maxCandleCount4h){
+	  currentCandleCount4h += 1;
+	  var prevPrice = closeArray4h[closeArray4h.length -1];
+
+		closeArray4h.push(fullCloseArray4h[currentCandleCount4h]);
+		highArray4h.push(fullHighArray4h[currentCandleCount4h]);
+		lowArray4h.push(fullLowArray4h[currentCandleCount4h]);
+		openArray4h.push(fullOpenArray4h[currentCandleCount4h]);
+		MovingAverage4h.push(fullMovingAverage4h[currentCandleCount4h]);
+		date4h.push(fulldate4h[currentCandleCount4h]);
+
+	  buildPlotly(currentCandleCount4h,closeArray4h,highArray4h,lowArray4h,openArray4h,MovingAverage4h,'IndexChartToolDiv',{},annotations4h);
+
+	  if(date4h[date4h.length-1].slice(0,10) != date4h[date4h.length-2].slice(0,10)){
+	    	buildDailyChart({});
+	  }
+
+	  
+	  var newPrice = closeArray4h[closeArray4h.length-1];
+		//BUILD NEWS
+	    getCurrentNews(newsDate,newsTitle);
+		//ENDNEWSBUILD
+	  if(currentPosition > 0){
+	  	equity += (newPrice - prevPrice - getSpread("")) * currentPosition;
+	  }else if (currentPosition < 0){
+	  	equity += (prevPrice - newPrice - getSpread(""))* Math.abs(currentPosition);	
+	  }
+
+	} else {
+		balance += equity;
+    	document.getElementById("IndexBalance").innerHTML = "Your final balance was: " + balance.toFixed(5) + " Dollars";
+    	document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+	}
+  
+
+    document.getElementById("IndexBalance").innerHTML = "Your equity is: " + equity.toFixed(5) + " Dollars &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Your balance is: " + balance.toFixed(5) + " Dollars.";
+    document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+
+}
+
+
+///End buttons for chart
+///Start switch timeframe button:
+function ShowTimeframesFunction(){
+			document.getElementById("ShowDailyChart").style.display = "";
+			buildDailyChart({});
+}
+
+function HideTimeframesFunction(){
+			document.getElementById("ShowDailyChart").style.display = "none";	
+}
+
+function DrawLineFunction(){
+	var line = document.getElementById("drawLineInput").value;
+	lineFloat = parseFloat(line);
+	
+	  drawTrace4h = {
+	    line: {width: 1}, 
+	    mode: 'lines', 
+	    name: 'DrawLine', 
+	    type: 'scatter', 
+	    y: Array(currentCandleCount4h).fill(lineFloat), 
+	    yaxis: 'y',
+	    marker: {color: 'red'},
+	    hoverinfo: "none",  
+  	};
+
+		var startCandleCountdaily = 0;
+		var xi = 0;
+		for(xx = startCandleCountdaily; xx < fulldatedaily.length;xx++){
+			xi += 1;
+			if(date4h[date4h.length-2].slice(0,10) == fulldatedaily[xx].slice(0,10) ){
+				var currentCandleCountdaily = startCandleCountdaily + xi-1;
+				break;
+			}
+		}
+
+	  drawTracedaily = {
+	    line: {width: 1}, 
+	    mode: 'lines', 
+	    name: 'DrawLine', 
+	    type: 'scatter', 
+	    y: Array(xi).fill(lineFloat), 
+	    yaxis: 'y',
+	    marker: {color: 'red'},
+	    hoverinfo: "none",  
+  	};  	
+
+    closeArray4h.push(fullCloseArray4h[currentCandleCount4h]);
+    highArray4h.push(fullHighArray4h[currentCandleCount4h]);
+    lowArray4h.push(fullLowArray4h[currentCandleCount4h]);
+    openArray4h.push(fullOpenArray4h[currentCandleCount4h]);
+    MovingAverage4h.push(fullMovingAverage4h[currentCandleCount4h]);
+    date4h.push(fulldate4h[currentCandleCount4h]);
+
+  	buildPlotly(currentCandleCount4h,closeArray4h,highArray4h,lowArray4h,openArray4h,MovingAverage4h,'IndexChartToolDiv',drawTrace4h);
+  	buildDailyChart(drawTracedaily);
+
+}
+
+
+
+function buildNewPlotPlotly(currentCandleCount,closeArray,highArray,lowArray,openArray,MovingAverage,elementID,trace3dic,annotationArray){
+  //JAVASCRIPT CHART. 
+  var trace1 = {
+    
+    x: [0]*currentCandleCount, 
+    
+    close: closeArray, 
+    
+    decreasing: {line: {color: '#7F7F7F'}}, 
+    
+    high: highArray, 
+    
+    increasing: {line: {color: '#17BECF'}}, 
+    
+    line: {color: 'rgba(31,119,180,1)'}, 
+    
+    low: lowArray, 
+    
+    open: openArray, 
+    
+    type: 'candlestick', 
+    xaxis: 'x', 
+    yaxis: 'y',
+    hoverinfo: "none",
+    increasing: {line: {color: 'green'}},
+      decreasing: {line: {color: 'red'}},
+  };
+
+  trace2 = {
+    line: {width: 1}, 
+    mode: 'lines', 
+    name: 'Moving Average', 
+    type: 'scatter', 
+    y: MovingAverage, 
+    yaxis: 'y',
+    marker: {color: '#E377C2'},
+    hoverinfo: "none",
+  };
+
+  trace3 = trace3dic;
+
+  var plotlyData = [trace1,trace2,trace3];
+
+  var layout = {
+    dragmode: 'zoom', 
+    margin: {
+      r: 10, 
+      t: 25, 
+      b: 40, 
+      l: 60
+    }, 
+    showlegend: false, 
+    xaxis: {
+      autorange: true, 
+      domain: [0, 1], 
+      type: 'category',
+      rangeslider: {
+       visible: false
+     }
+    }, 
+    dragmode: "pan",
+    yaxis: {
+      type: 'linear',
+      autorange: true
+    },
+    title: "AAPL",
+    annotations : [
+    	{annotationArray}
+    ]
+
+
+  };
+
+  var config = {
+    'scrollZoom': true,
+  };
+
+  Plotly.newPlot(elementID, plotlyData, layout, config = config);
+
+}
+
+	function buildNewDailyChart(trace3dic){
+		var startCandleCountdaily = 0;
+		var xi = 0;
+		for(xx = startCandleCountdaily; xx < fulldatedaily.length;xx++){
+			xi += 1;
+			if(date4h[date4h.length-2].slice(0,10) == fulldatedaily[xx].slice(0,10) ){
+				var currentCandleCountdaily = startCandleCountdaily + xi-1;
+				break;
+			}
+		}
+
+		
+
+    closeArraydaily.push(fullCloseArraydaily[currentCandleCountdaily]);
+    highArraydaily.push(fullHighArraydaily[currentCandleCountdaily]);
+    lowArraydaily.push(fullLowArraydaily[currentCandleCountdaily]);
+    openArraydaily.push(fullOpenArraydaily[currentCandleCountdaily]);
+    MovingAveragedaily.push(fullMovingAveragedaily[currentCandleCountdaily]);
+    datedaily.push(fulldatedaily[currentCandleCountdaily]);
+
+		buildNewPlotPlotly(currentCandleCountdaily,closeArraydaily,highArraydaily,lowArraydaily,openArraydaily,MovingAveragedaily,'IndexChartToolDivDaily',trace3dic,{});
+	}
+
+function RemoveLineFunction(){
+
+
+	drawTrace4h = {};
+
+	buildNewPlotPlotly(currentCandleCount4h,closeArray4h,highArray4h,lowArray4h,openArray4h,MovingAverage4h,'IndexChartToolDiv',drawTrace4h,{});
+
+
+
+	var startCandleCountdaily = 0;
+	var xi = 0;
+	for(xx = startCandleCountdaily; xx < fulldatedaily.length;xx++){
+		xi += 1;
+		if(date4h[date4h.length-2].slice(0,10) == fulldatedaily[xx].slice(0,10) ){
+			var currentCandleCountdaily = startCandleCountdaily + xi-1;
+			break;
+		}
+	}
+
+	drawTracedaily = {};  
+
+  	buildNewDailyChart(drawTracedaily);
+}
+
+
+</script>
+
+
+
+<style>
+	body{
+background:
+radial-gradient(black 15%, transparent 16%) 0 0,
+radial-gradient(black 15%, transparent 16%) 8px 8px,
+radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+background-color:#282828;
+background-size:16px 16px;
+
+font-family: "Times";
+
+}
+
+</style>

@@ -1,0 +1,290 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	
+    <title>dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  </head>
+  <body>
+  		
+	<div class="container-fluid" style="background-color: white; font-family: Arial">
+		<div class="row" style="">
+			<div class="col-7" style="">
+				<div id="AAPL-Quarterly" style="height: 370px; margin: 0px; padding: 0px; margin-top: 50px;"></div>
+				
+			</div>
+			<div class="col-4" style="border-width: 1px; border-color: black; border-style: solid; border-radius: 25px; background-color: white; margin-left: 33px; margin-top: 50px; margin-bottom: 80px; padding-bottom: 20px;">
+				<p style="text-align: center;">Insight</p>
+				<p>This dashboard is focused on the growth, and revenue of Apple inc. And some of its direct competitors.</p>
+				<p>A few key points that come to mind from the data: </p>
+				<ul>
+					<li>Apple has grown more than any of its competitors (Microsoft, Sony, HP)</li>
+					<li>Apple revenues seem to be slowing down</li>
+					<li>While Apples revenue is slowing down, Microsofts is growing faster than ever</li>
+					<li>While sony has grown very little throught this years, it has a steady stream of revenue</li>
+					<li>Hewlett-Packard is the only company that has actually shrunk throught the years</li>
+				</ul>
+			</div>
+		</div>
+		
+		<div class="row" style="">
+			<div class="col-7" style="">
+				<div id="Compare-Growth" style="height: 290px; margin-top: -12px;"></div>
+			</div>
+			<div class="col-4" style="">
+				<div id="Compare-Revenue" style="height: 290px;  margin-top: -30px;"></div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
+
+
+<script>
+
+	var AAPLdate = [{% for value in AAPLs %} '{{ value.date }}' {% if not forloop.last %}, {% endif %} {% endfor %}];
+	var AAPLrev = [{% for value in AAPLs %} '{{ value.revenue }}' {% if not forloop.last %}, {% endif %} {% endfor %}];
+
+	var MSFTdate = [{% for value in MSFTs %} '{{ value.date }}' {% if not forloop.last %}, {% endif %} {% endfor %}];
+	var MSFTrev = [{% for value in MSFTs %} '{{ value.revenue }}' {% if not forloop.last %}, {% endif %} {% endfor %}];
+
+	var HPQdate = [{% for value in HPQs %} '{{ value.date }}' {% if not forloop.last %}, {% endif %} {% endfor %}];
+	var HPQrev = [{% for value in HPQs %} '{{ value.revenue }}' {% if not forloop.last %}, {% endif %} {% endfor %}];
+
+	var SNEdate = [{% for value in SNEs %} '{{ value.date }}' {% if not forloop.last %}, {% endif %} {% endfor %}];
+	var SNErev = [{% for value in SNEs %} '{{ value.revenue }}' {% if not forloop.last %}, {% endif %} {% endfor %}];
+
+
+	function getGrowth(revArray){
+		growth = [];
+		for(i = 0;i < revArray.length; i++){
+			if(i == 0){
+				growth.push(0);
+			}else{
+				growth.push((revArray[i]/revArray[0]));
+			}
+
+		}
+		return growth;
+	}	
+
+
+	function getMA(revArray,period){
+		MA = [];
+		for(i = 0; i < revArray.length;i++){
+			if( i >= period){
+				sum = 0;
+				for(z = 0; z < period; z++){
+					sum += parseFloat(revArray[i-z]);
+				}
+				avrg = sum/period;
+				MA.push(avrg);
+			} else{
+				MA.push(0);
+			}
+		}
+
+		return(MA)
+	}
+
+	function dateStrToDate(array){
+		newArr = [];
+		for(i = 0; i < array.length; i++){
+			newArr.push(new Date(array[i]));
+		}
+		return newArr;
+	};
+
+	///CHART 1:
+
+	var trace1 = {
+	  x: dateStrToDate(AAPLdate),
+	  y: AAPLrev,
+	  type: 'bar',
+	  name: "Revenue"
+	};
+
+	var trace2 = {
+		x: dateStrToDate(AAPLdate),
+		y: getMA(AAPLrev,12),
+		type: "line",
+		name: "Revenue moving average"
+	}
+
+	var plotlyData = [trace1, trace2];
+
+	var layout = {
+		margin: {
+			r:40,
+			t:40,
+			b:40,
+			l:40
+		},
+		xaxis: {
+			autorange: true,
+			type: "date"
+		},
+		title: "Apple quarterly gross profit (millions of US$)",
+		showlegend: false,
+
+		annotations: [
+			{
+				x: dateStrToDate(AAPLdate)[36],
+				y: AAPLrev[36],
+				text: "There is a clear spike in revenue every march"
+			}
+		]
+	};
+
+	var config = {displayModeBar: false};
+
+	Plotly.plot('AAPL-Quarterly', plotlyData, layout, config);
+
+	//
+
+	///CHART 2:
+	var trace1 = {
+	  x: dateStrToDate(AAPLdate),
+	  y: getMA(getGrowth(AAPLrev),4),
+	  type: 'line',
+	  name: "Apple"
+	};
+
+	var trace2 = {
+	  x: dateStrToDate(MSFTdate),
+	  y: getMA(getGrowth(MSFTrev),4),
+	  name: "Microsoft"
+	};
+
+	var trace3 = {
+	  x: dateStrToDate(HPQdate),
+	  y: getMA(getGrowth(HPQrev),4),
+	  name: "Hewlett Paq"
+	};
+
+	var trace4 = {
+	  x: dateStrToDate(SNEdate),
+	  y: getMA(getGrowth(SNErev),4),
+	  name: "Sony"
+	};			
+
+	var plotlyData = [trace1, trace2, trace3,trace4];
+
+	var layout = {
+		margin: {
+			r:40,
+			t:40,
+			b:30,
+			l:40
+		},
+		xaxis: {
+			autorange: true,
+			type: "date"
+		},
+		title: "Company growth (Actual quarterly revenue VS 2005 First quarter)",
+		legend: {
+		    x: 0,
+		    y: 1,
+		    traceorder: 'normal',
+		    font: {
+		      family: 'sans-serif',
+		      size: 12,
+		      color: '#000'
+		    }
+		},
+
+		annotations: [
+			{
+				x: dateStrToDate(AAPLdate)[AAPLdate.length-1],
+				y: getGrowth(AAPLrev)[AAPLrev.length-2],
+				text: "Last quarter Apple revenue was around 14 times bigger than in 2005 ",
+				ax: -250,
+      			ay: 80
+			}
+		]
+	};
+
+	var config = {displayModeBar: false};
+
+	Plotly.plot('Compare-Growth', plotlyData, layout, config);
+
+	//
+
+///CHART 3:
+	var trace1 = {
+	  x: dateStrToDate(AAPLdate),
+	  y: AAPLrev,
+	  type: 'line',
+	  name: "Apple"
+	};
+
+	var trace2 = {
+	  x: dateStrToDate(MSFTdate),
+	  y: MSFTrev,
+	  name: "Microsoft"
+	};
+
+	var trace3 = {
+	  x: dateStrToDate(HPQdate),
+	  y: HPQrev,
+	  name: "Hewlett Paq"
+	};
+
+	var trace4 = {
+	  x: dateStrToDate(SNEdate),
+	  y: SNErev,
+	  name: "Sony"
+	};			
+
+	var plotlyData = [trace1, trace2, trace3,trace4];
+
+	var layout = {
+		margin: {
+			r:30,
+			t:40,
+			b:30,
+			l:40
+		},
+		xaxis: {
+			autorange: true,
+			type: "date"
+		},
+		title: "Quarterly revenue",
+		yaxis: {
+			range: [0, 35000]
+		},
+
+		legend: {
+		    x: 0,
+		    y: 1,
+		    traceorder: 'normal',
+		    font: {
+		      family: 'sans-serif',
+		      size: 12,
+		      color: '#000'
+		    }
+		}
+	};
+
+	var config = {displayModeBar: false};
+
+	Plotly.plot('Compare-Revenue', plotlyData, layout, config);
+
+	//	
+
+</script>

@@ -1,0 +1,463 @@
+;{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>FxTrain</title>
+	<link rel="stylesheet" href="">
+	<!-- Bootstrap CSS -->
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+		
+	<main role = "main" class="container" style="background-color: #FDFDFD; border-left: 10px; border-right: 10px; border-style: solid; border-color: #BCBCBC; " >
+
+
+		<div class="row" style="background-color: #FDFDFD;">
+  			<nav class="navbar navbar-expand-lg navbar-light" style="width: 100%; margin-left: 20%; border-style: solid; border-width: 0px; border-bottom: 1px; border-color: black; border-radius: 3px;">
+		  		<a class="navbar-brand" href="/" >
+		  			<img src="{% static 'website/images/FxTrainLogoTransp.svg' %}" width="120" height="100" alt=""/>
+		  		</a>
+		  		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		    		<span class="navbar-toggler-icon"></span>
+		  		</button>
+
+			  <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-top: 10px;">
+			    <ul class="navbar-nav mr-auto">
+			      <li class="nav-item active">
+			        <a class="nav-link" href="train"><h5 style="color: #333333">Train</h5> <span class="sr-only">(current)</span></a>
+			      </li>
+			      <li class="nav-item active">
+			        <a class="nav-link" href="learn"><h5 style="color: #333333">Learn</h5> <span class="sr-only">(current)</span></a>
+			      </li>
+			      <li class="nav-item active">
+			        <a class="nav-link" href="#"><h5 style="color: #333333">Pricing</h5> <span class="sr-only">(current)</span></a>
+			      </li>
+				  <li class="nav-item active">
+			        <a class="nav-link" href="#"><h5 style="color: #333333">Help us!</h5><span class="sr-only">(current)</span></a>
+			      </li>
+				  <li class="nav-item active border-right" style="margin-top: 3px;">
+			        <a class="nav-link" href="#"><h6>Sign In</h6><span class="sr-only">(current)</span></a>
+			      </li>
+				  <li class="nav-item active">
+			        <button class="btn btn-outline-primary" type="submit" style="border-radius: 5px; border-color: #00B7C0;  margin-top: 2px; margin-left: 10px;">Register</button>
+			      </li>
+			    </ul>
+			  </div>
+			</nav>
+  		</div> <!-- NAVBAR -->
+
+  		<div class="row" style="background-color: #FDFDFD;">
+  			<div class="col" style="border-color: white; border-width: 5px; border-style: solid; font-size: 28px;">
+  				<h2>Learn to trade by doing</h2>
+  				<p>Do not paper trade normally and wait hours, or days until the market gives you feedback.
+  				<a href="#">Use our simulation and get it instantly.</a></p>
+  				<h3>Learn faster and do not waste your time.</h3>
+  			</div>
+				
+  			<div class="col" style="border-color: white; border-width: 5px; border-style: solid; font-size: 20px;">
+  				<h4 style="opacity: 1;">Increase your pofitability in any market:</h4>
+				<ul style=" font-style: italic; opacity: 1;">
+					<li>
+						Stocks
+					</li>
+					<li>
+						Currencies
+					</li>
+					<li>
+						Options
+					</li>
+					<li>
+						Commodities
+					</li>
+				</ul>
+				<h4>Train anytime, anywhere:</h4>
+				<p style =" font-style: italic;">Trade the past as if it was live, and get years of experience faster than ever!</p>
+				<p style =" font-style: italic;">A boxer would not fight without training, and you shouldn't either. Train risk free.</p>
+				<a href="">Subscribe to get full acces to our training tool!</a>
+  			</div>
+  		</div>
+  		<div class="row" style="margin-top: 20px; background-color: #FDFDFD;">
+  			<h3 style="margin: auto;">Try out our free puzzle</h3>
+  		</div>
+
+	    <div class="row" style="background-color: #FDFDFD;">
+	      <div class="col-8" style="background-color: #FDFDFD; opacity: .9; margin: 0;">
+	            <button class="btn btn-outline-success" type="submit" style="border-radius: 5px; border-color: black; margin-left: 00px; width: 80px; margin-bottom: 2px;" id="IndexBuyButton" onclick="clickedToolBuyButton()">Buy</button>
+	            <button class="btn btn-outline-danger" type="submit" style="border-radius: 5px; border-color: black; width: 80px; margin-bottom: 2px;" id="IndexShortButton" onclick="clickedToolSellButton()">Short</button>
+	            <button class="btn btn-outline-Secondary" type="submit" style="border-radius: 5px; border-color: black; margin-left: 0px; width: 80px; margin-bottom: 2px;" id="IndexSellButton" onclick="clickedIndexSellButton()">Sell</button>
+	            <button class="btn btn-outline-Secondary" type="submit" style="border-radius: 5px; border-color: black; width: 80px; margin-bottom: 2px;" id="IndexCoverButton" onclick="clickedToolCoverButton()">Cover</button> 
+	            <button class="btn btn-outline-primary" type="submit" style="border-radius: 5px; border-color: black; width: 95px; margin-bottom: 2px;" id="IndexWaitButton" onclick="clickedToolWaitButton()">Wait-Hold</button>
+	            <input type="text" id = "lotInput">
+	            <button class="btn btn-outline-Info" onclick="LotSizeFunction()">Set lot size</button>
+	            <div id="IndexChartToolDiv" style="height: 400px; margin-right: 0px; margin-top: 20px;"></div>
+	            <p id="IndexBalance" style="font-size: 16px;"> Your equity is : 0 Dollars &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Your balance is 0 Dollars.</p>
+	            <a id="YourCurrentLotSize" style="text-align: center; font-size: 16px;"></a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <a id="YourCurrentPositionSize" style="text-align: center; font-size: 16px;"></a>
+	      </div>
+	      <div class="col" id="TrainingText" style="font-size: 15px; color: #333333; background-color: #FDFDFD; opacity: 1; margin-top: 60px;">
+	            <h4>GBPUSD, Brexit news</h4>
+	            <h5>Hour4 timeframe</h5>
+	            <p>The british prime minister anounced talks to postpone brexit.</p>
+
+	      </div>
+	    </div>
+
+	    <div class="row" style="margin-top: 30px;">
+	    	<div class="col">
+	    		<h4>Join our community for free and get our selected learning content, plus a free daily learning scenario.</h4>
+	    		<iframe width="100%" height="350" src="https://www.youtube.com/embed/HsbOfFmAvHs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	    	</div>
+	    	<div class="col" style="font-size: 16px;">
+	    		<h4>Or <a href="">subscribe for only 20$ </a>a month and get access to all our evergrowing library of learning scenarios.</h4>
+	    		<p>20$ is the equivalent of:</p>
+	    		<ul>
+	    			<li>6 cups of coffe (Get that caffeine break and help your body)</li>
+	    			<li>12 water bottles (Buy a thermos and help the environment)</li>
+	    			<li>80 chicken McNuggets (Learn an diet at the same time!)</li>
+	    			<li>A bottle of wine (We don't mind responible drinking, but think of the children.)</li>
+	    			<li>A book (Yes, a finance book even, but think about it, will a book give you feedback... Exactly)</li>
+	    		</ul>
+	    		<h5>Learning is an investment, invest in yourself, learn with us, and of course, earn it back.</h5>
+	    	</div>
+	    </div>
+
+
+		<footer class="footer" id="homepageFooter" style="margin-top: 30px;">
+			<div class="container" style="margin-left: 0; background-color: #FDFDFD;">
+				<div class="row" style="">
+					<div class="col-9 border-right" style="margin-top: 8px;">
+					<!-- TradingView Widget BEGIN -->
+						<div class="tradingview-widget-container">
+						  <div class="tradingview-widget-container__widget"></div>
+						  <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com" rel="noopener" target="_blank"><span class="blue-text">Quotes</span></a> by TradingView</div>
+						  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-tickers.js" async>
+						  {
+						  "symbols": [
+						    {
+						      "title": "S&P 500",
+						      "proName": "OANDA:SPX500USD"
+						    },
+						    {
+						      "title": "Nasdaq 100",
+						      "proName": "OANDA:NAS100USD"
+						    },
+						    {
+						      "title": "EUR/USD",
+						      "proName": "FX_IDC:EURUSD"
+						    },
+						    {
+						      "title": "BTC/USD",
+						      "proName": "BITSTAMP:BTCUSD"
+						    }
+						  ],
+						  "colorTheme": "light",
+						  "isTransparent": false,
+						  "locale": "en"
+						}
+						  </script>
+						</div>
+						<!-- TradingView Widget END -->
+					</div> 
+					<div class="col ">
+						<button class="btn btn-primary" type="submit" style="border-radius: 5px; border-color: black; background-color: #0084FF; margin-top: 20px;">Get Started</button>
+					</div>										
+					<div class="col" style="margin: 0px;">
+						<button class="btn btn-primary" type="submit" style="border-radius: 5px; border-color: black; background-color: #0084FF;  margin-top: 20px;">Contact</button>
+					</div>					
+				</div>
+			</div>
+		</footer>	
+
+
+	</main>
+
+
+</body>
+</html>
+
+<script>
+	
+
+
+////////////
+
+var fullCloseArray = [{% for currency in all_currencies %} '{{ currency.Close }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+var fullHighArray = [{% for currency in all_currencies %} '{{ currency.High }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+var fullLowArray = [{% for currency in all_currencies %} '{{ currency.Low }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+var fullOpenArray = [{% for currency in all_currencies %} '{{ currency.Open }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+var fullMovingAverage = [{% for currency in all_currencies %} '{{ currency.MovingAverage }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+
+var startCandleCount = 0;
+var currentCandleCount = startCandleCount + 5;
+var maxCandleCount = currentCandleCount + 8;
+
+var closeArray = fullCloseArray.slice(startCandleCount,currentCandleCount);
+var highArray = fullHighArray.slice(startCandleCount,currentCandleCount);
+var lowArray = fullLowArray.slice(startCandleCount,currentCandleCount);
+var openArray = fullOpenArray.slice(startCandleCount,currentCandleCount);
+var MovingAverage = fullMovingAverage.slice(startCandleCount,currentCandleCount);
+
+var annotationValX = currentCandleCount;
+var annotationValY = highArray[highArray.length-2];
+  
+function buildPlotly(){
+  //JAVASCRIPT CHART. 
+  var trace1 = {
+    
+    x: [0]*currentCandleCount, 
+    
+    close: closeArray, 
+    
+    decreasing: {line: {color: '#7F7F7F'}}, 
+    
+    high: highArray, 
+    
+    increasing: {line: {color: '#17BECF'}}, 
+    
+    line: {color: 'rgba(31,119,180,1)'}, 
+    
+    low: lowArray, 
+    
+    open: openArray, 
+    
+    type: 'candlestick', 
+    xaxis: 'x', 
+    yaxis: 'y',
+    hoverinfo: "none",
+    increasing: {line: {color: 'green'}},
+      decreasing: {line: {color: 'red'}},
+  };
+
+  trace2 = {
+    line: {width: 1}, 
+    mode: 'lines', 
+    name: 'Moving Average', 
+    type: 'scatter', 
+    x: [0]*currentCandleCount,
+    y: MovingAverage, 
+    yaxis: 'y',
+    marker: {color: '#E377C2'},
+    hoverinfo: "none",
+  };
+
+  var plotlyData = [trace1,trace2];
+
+  var layout = {
+    dragmode: 'zoom', 
+    margin: {
+      r: 10, 
+      t: 25, 
+      b: 40, 
+      l: 60
+    }, 
+    showlegend: false, 
+    xaxis: {
+      autorange: true, 
+      domain: [0, 1], 
+      type: 'category',
+      rangeslider: {
+       visible: false
+     }
+    }, 
+    dragmode: "pan",
+    yaxis: {
+      type: 'linear',
+      autorange: true
+    },
+    title: "Under Armour",
+
+
+  };
+
+  var config = {
+    'scrollZoom': true,
+  };
+
+  Plotly.plot('IndexChartToolDiv', plotlyData, layout, config = config);
+
+}
+
+buildPlotly();
+///--------------------------------
+  
+
+function getSpread(Symbol){ //REVISA ESTO BIEN y hazlo
+  if(Symbol == "USDCHF"){
+    spread = 0.00020
+  } else if (Symbol == "GBPUSD") {
+    spread = .00020
+  } else if (Symbol == "") {
+  	spread = 0
+  }
+
+  return spread;
+}
+var lotSize = 1;
+document.getElementById("YourCurrentLotSize").innerHTML = "Your current lot size is: " + lotSize + " lots";
+
+function LotSizeFunction(){
+	var text = document.getElementById("lotInput").value;
+	lotSize = parseFloat(text);
+	document.getElementById("YourCurrentLotSize").innerHTML = "Your current lot size is: " + lotSize + " lots";
+	return(text);
+}
+
+
+
+
+var equity = 0;
+var balance = 0;
+var currentPosition = 0;
+
+document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+
+function clickedToolBuyButton(){
+  var prevPrice = closeArray[closeArray.length -1];
+
+  if (currentCandleCount <= maxCandleCount){
+    currentCandleCount += 1;
+
+    closeArray = fullCloseArray.slice(startCandleCount,currentCandleCount);
+    highArray = fullHighArray.slice(startCandleCount,currentCandleCount);
+    lowArray = fullLowArray.slice(startCandleCount,currentCandleCount);
+    openArray = fullOpenArray.slice(startCandleCount,currentCandleCount);
+    MovingAverage = fullMovingAverage.slice(startCandleCount,currentCandleCount);
+
+    buildPlotly();
+
+    var newPrice = closeArray[closeArray.length-1];
+
+    if(currentPosition < 0){
+    	return clickedToolCoverButton();
+    }
+
+    currentPosition += lotSize;
+    equity += (newPrice - prevPrice - getSpread("")) * currentPosition;
+
+    document.getElementById("IndexBalance").innerHTML = "Your equity is: " + equity.toFixed(5) + " Dollars &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Your balance is: " + balance.toFixed(5) + " Dollars.";
+    document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+  } else{
+  	balance += equity;
+    document.getElementById("IndexBalance").innerHTML = "Your final balance was: " + balance.toFixed(5) + " Dollars";
+    document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+  }
+
+  //document.getElementById("MyElement").className = "MyClass"; To change Sell Button color
+}
+
+function clickedIndexSellButton(){
+	if (currentCandleCount <= maxCandleCount){
+		if(currentPosition > 0){
+			if(lotSize >= currentPosition){
+				balance += equity;
+				equity = 0;
+				currentPosition = 0;
+				document.getElementById("IndexBalance").innerHTML = "Your equity is: " + equity.toFixed(5) + " Dollars &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Your balance is: " + balance.toFixed(5) + " Dollars.";
+				document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+			} else{
+				balance += equity * Math.abs(lotSize/currentPosition);	
+				equity = equity * Math.abs(lotSize/currentPosition);
+				currentPosition -= lotSize;
+				document.getElementById("IndexBalance").innerHTML = "Your equity is: " + equity.toFixed(5) + " Dollars &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Your balance is: " + balance.toFixed(5) + " Dollars.";
+				document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+			}	
+		}
+	} else{
+		document.getElementById("IndexBalance").innerHTML = "Your final balance was: " + balance.toFixed(5) + " Dollars";
+	}
+}
+
+
+function clickedToolSellButton(){
+  var prevPrice = closeArray[closeArray.length -1];
+
+  if (currentCandleCount <= maxCandleCount){
+    currentCandleCount += 1;
+
+    closeArray = fullCloseArray.slice(startCandleCount,currentCandleCount);
+    highArray = fullHighArray.slice(startCandleCount,currentCandleCount);
+    lowArray = fullLowArray.slice(startCandleCount,currentCandleCount);
+    openArray = fullOpenArray.slice(startCandleCount,currentCandleCount);
+    MovingAverage = fullMovingAverage.slice(startCandleCount,currentCandleCount);
+
+    buildPlotly();
+
+    var newPrice = closeArray[closeArray.length-1];
+
+
+	if(currentPosition > 0){
+    	return clickedIndexSellButton();
+    }
+
+
+    currentPosition -= lotSize;
+    equity += (prevPrice - newPrice - getSpread(""))* Math.abs(currentPosition);
+
+    document.getElementById("IndexBalance").innerHTML = "Your equity is: " + equity.toFixed(5) + " Dollars &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Your balance is: " + balance.toFixed(5) + " Dollars.";
+    document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+  } else{
+  	balance += equity;
+    document.getElementById("IndexBalance").innerHTML = "Your final balance was: " + balance.toFixed(5) + " Dollars";
+    document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+  }
+}
+
+function clickedToolCoverButton(){
+	if (currentCandleCount <= maxCandleCount){
+		if(currentPosition < 0){
+			if(lotSize >= Math.abs(currentPosition)){
+				balance += equity;
+				equity = 0;
+				currentPosition = 0;
+				document.getElementById("IndexBalance").innerHTML = "Your equity is: " + equity.toFixed(5) + " Dollars &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Your balance is: " + balance.toFixed(5) + " Dollars.";
+				document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+			} else{
+				balance += equity * Math.abs(lotSize/currentPosition);	
+				equity = equity * Math.abs(lotSize/currentPosition);
+				currentPosition += lotSize;
+				document.getElementById("IndexBalance").innerHTML = "Your equity is: " + equity.toFixed(5) + " Dollars &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Your balance is: " + balance.toFixed(5) + " Dollars.";
+				document.getElementById("YourCurrentPositionSize").innerHTML = "Your current position size is: " + currentPosition + " lots";
+			}	
+		}
+	} else{
+		document.getElementById("IndexBalance").innerHTML = "Your final balance was: " + balance.toFixed(5) + " Dollars";
+	}
+}
+
+function clickedToolWaitButton(){
+  currentCandleCount += 1
+
+  closeArray = fullCloseArray.slice(startCandleCount,currentCandleCount);
+  highArray = fullHighArray.slice(startCandleCount,currentCandleCount);
+  lowArray = fullLowArray.slice(startCandleCount,currentCandleCount);
+  openArray = fullOpenArray.slice(startCandleCount,currentCandleCount);
+  MovingAverage = fullMovingAverage.slice(startCandleCount,currentCandleCount);
+
+  buildPlotly();
+}
+
+</script>
+
+<style>
+	body{
+background:
+radial-gradient(black 15%, transparent 16%) 0 0,
+radial-gradient(black 15%, transparent 16%) 8px 8px,
+radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+background-color:#282828;
+background-size:16px 16px;
+
+font-family: "Times";
+
+}
+
+.footer {
+    bottom: 0;
+    background-color: #f5f5f5;
+}
+
+</style>

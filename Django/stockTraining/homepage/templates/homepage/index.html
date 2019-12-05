@@ -1,0 +1,437 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	
+	<link rel="stylesheet" type="text/css" href="{% static 'homepage/style.css' %}">
+    <title>FxTrain</title>
+     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  </head>
+  <body>
+  		<main role = "main" class="container" id="mainSiteContainer" style="background-color: white;">
+  			<div class="row">
+  				<nav class="navbar navbar-expand-lg navbar-light" style="width: 100%">
+		  <a class="navbar-brand" href="/" >
+		  	<img src="{% static 'homepage/images/FxTrainLogoTransp.svg' %}" width="120" height="100" alt=""/>
+		  </a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+
+		  <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-top: 10px;">
+		    <ul class="navbar-nav mr-auto">
+		      <li class="nav-item active">
+		        <a class="nav-link" href="train"><h5 style="color: #333333">Train</h5> <span class="sr-only">(current)</span></a>
+		      </li>
+		      <li class="nav-item active">
+		        <a class="nav-link" href="compete"><h5 style="color: #333333">Compete</h5> <span class="sr-only">(current)</span></a>
+		      </li>
+		      <li class="nav-item active">
+		        <a class="nav-link" href="learn"><h5 style="color: #333333">Learn</h5> <span class="sr-only">(current)</span></a>
+		      </li>
+		      <li class="nav-item active">
+		        <a class="nav-link" href="#"><h5 style="color: #333333">Pricing</h5> <span class="sr-only">(current)</span></a>
+		      </li>
+			  <li class="nav-item active">
+		        <a class="nav-link" href="#"><h5 style="color: #333333">Help us!</h5><span class="sr-only">(current)</span></a>
+		      </li>
+            <form action="#" onsubmit = "handle" class="search-form" style="margin-top: 3px;">
+                <div class="form-group has-feedback">
+            		<label for="search" class="sr-only">Search</label>
+            		<input type="text" class="form-control" name="search" id="search" placeholder="search">
+              		<span class="glyphicon glyphicon-search form-control-feedback"></span>
+            	</div>
+            </form>
+			  <li class="nav-item active border-right" style="margin-top: 3px;">
+		        <a class="nav-link" href="#"><h6>Sign In</h6><span class="sr-only">(current)</span></a>
+		      </li>
+			  <li class="nav-item active">
+		        <button class="btn btn-outline-primary" type="submit" style="border-radius: 5px; border-color: #00B7C0;  margin-top: 2px; margin-left: 10px;">Register</button>
+		      </li>
+
+		    </ul>
+
+		  </div>
+		</nav>
+  			</div>
+  		
+		
+
+		
+			<div class="container" style="margin-bottom: 5px; ">
+				<div class="row" style=" color: #222222; margin-top: 10px; ">
+					<div class="col-8" style="background-color: #FDFDFD; opacity: .9; margin: 0;">
+						<a href="" style="color: #333333; font-size: 24px; ">Free taining of the day:</a> 
+						<button class="btn btn-outline-success" type="submit" style="border-radius: 5px; border-color: black; margin-left: 00px; width: 80px; margin-bottom: 2px;" id="IndexBuyButton" onclick="clickedToolBuyButton()">Buy</button>
+						<button class="btn btn-outline-danger" type="submit" style="border-radius: 5px; border-color: black; width: 80px; margin-bottom: 2px;" id="IndexShortButton" onclick="clickedToolSellButton()">Short</button>
+						<button class="btn btn-outline-Secondary" type="submit" style="border-radius: 5px; border-color: black; margin-left: 0px; width: 80px; margin-bottom: 2px;" id="IndexSellButton" onclick="">Sell</button>
+						<button class="btn btn-outline-Secondary" type="submit" style="border-radius: 5px; border-color: black; width: 80px; margin-bottom: 2px;" id="IndexCoverButton" onclick="">Cover</button>						
+						<button class="btn btn-outline-primary" type="submit" style="border-radius: 5px; border-color: black; width: 95px; margin-bottom: 2px;" id="IndexWaitButton" onclick="clickedToolWaitButton()">Wait-Hold</button>
+						<div id="IndexChartToolDiv" style="height: 400px; margin-right: 0px; margin-top: 20px;"></div>
+						<p id="IndexBalance" style="text-align: center; font-size: 10px;"> Your balance is : 0 pips</p>
+					</div>
+					<div class="col" id="TrainingText" style="font-size: 15px; color: #333333; background-color: #FDFDFD; opacity: 1; margin-top: 60px;">
+						<h4 style="opacity: 1;">Increase your pofitability in any market:</h4>
+						<ul style=" font-style: italic; opacity: 1;">
+							<li>
+								Stocks
+							</li>
+							<li>
+								Currencies
+							</li>
+							<li>
+								Options
+							</li>
+							<li>
+								Commodities
+							</li>
+						</ul>
+						<h4>Train anytime, anywhere:</h4>
+						<p style =" font-style: italic;">Trade the past as if it was live, and get years of experience faster than ever!</p>
+						<p style =" font-style: italic;">A boxer would not fight without training, and you shouldn't either. Train risk free.</p>
+						<a href="">Subscribe to get full acces to our training tool!</a>
+					</div>
+				</div>
+			
+				<div class="row" style="background-color: #FEFEFE; color: #333333; margin-top: 60px; margin-left: 1px; margin-bottom: 15px;">
+					<h1 style="color: #333333;"> Compete against other traders!</h1>
+				</div>
+				<div class="row">
+					<div class="col-5" style=" background-color: #FEFEFE; color: #333333">
+						<h4><a href="">Join our evergrowing community of traders!</a></h4>
+
+					</div>
+					<div class="col" style="background-color: white;">
+						<img src="{% static 'homepage/images/leaderboardgeneric.jpg' %}" width="100%" height="400" alt=""/>
+					</div>
+				</div>
+				<div class="row">
+
+
+				</div>
+			</div>
+		</main>
+
+		<br><br><br><br><br>
+
+
+
+		<main role = "main" class="container" id="mainMobileContainer" style="display: none;">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<p>"Textooooooooooooo"</p>
+					</div>
+				</div>
+			</div>
+		</main>		
+
+
+
+
+		<footer class="footer" id="homepageFooter">
+			<div class="container" style="margin-left: 0; background-color: white;">
+				<div class="row" style="">
+					<div class="col-9 border-right" style="margin-top: 8px;">
+					<!-- TradingView Widget BEGIN -->
+						<div class="tradingview-widget-container">
+						  <div class="tradingview-widget-container__widget"></div>
+						  <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com" rel="noopener" target="_blank"><span class="blue-text">Quotes</span></a> by TradingView</div>
+						  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-tickers.js" async>
+						  {
+						  "symbols": [
+						    {
+						      "title": "S&P 500",
+						      "proName": "OANDA:SPX500USD"
+						    },
+						    {
+						      "title": "Nasdaq 100",
+						      "proName": "OANDA:NAS100USD"
+						    },
+						    {
+						      "title": "EUR/USD",
+						      "proName": "FX_IDC:EURUSD"
+						    },
+						    {
+						      "title": "BTC/USD",
+						      "proName": "BITSTAMP:BTCUSD"
+						    }
+						  ],
+						  "colorTheme": "light",
+						  "isTransparent": false,
+						  "locale": "en"
+						}
+						  </script>
+						</div>
+						<!-- TradingView Widget END -->
+					</div> 
+					<div class="col ">
+						<button class="btn btn-primary" type="submit" style="border-radius: 5px; border-color: black; background-color: #0084FF; margin-top: 20px;">Get Started</button>
+					</div>										
+					<div class="col" style="margin: 0px;">
+						<button class="btn btn-primary" type="submit" style="border-radius: 5px; border-color: black; background-color: #0084FF;  margin-top: 20px;">Contact</button>
+					</div>					
+				</div>
+			</div>
+		</footer>	
+
+
+
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
+
+
+<script>
+	function removeFooterBelowHeight(minimumHeight, minimumWidth) {
+  if (minimumHeight.matches) { // If media query matches
+    document.getElementById("homepageFooter").style.display = "none";
+  }else{
+  	document.getElementById("homepageFooter").style.display = "block";	
+  }
+
+  if (minimumWidth.matches) { // If media query matches
+    document.getElementById("homepageFooter").style.display = "none";
+  }else{
+  	document.getElementById("homepageFooter").style.display = "block";	
+  }
+}
+
+var minimumHeight = window.matchMedia("(max-height: 580px)")
+var minimumWidth = window.matchMedia("(max-width: 992px)")
+removeFooterBelowHeight(minimumHeight,minimumWidth) // Call listener function at run time
+minimumHeight.addListener(removeFooterBelowHeight) // Attach listener function on state changes
+minimumWidth.addListener(removeFooterBelowHeight) // Attach listener function on state changes
+
+function hideLargeWebsiteContent(minimumHeight, minimumWidth) {
+  if (minimumHeight.matches) { // If media query matches
+    document.getElementById("mainSiteContainer").style.display = "none";
+  }else{
+  	document.getElementById("mainSiteContainer").style.display = "block";	
+  }
+
+  if (minimumWidth.matches) { // If media query matches
+    document.getElementById("mainSiteContainer").style.display = "none";
+  }else{
+  	document.getElementById("mainSiteContainer").style.display = "block";	
+  }
+}
+
+var minimumHeightSite = window.matchMedia("(max-height: 580px)")
+var minimumWidthSite = window.matchMedia("(max-width: 992px)")
+removeFooterBelowHeight(minimumHeightSite,minimumWidthSite) // Call listener function at run time
+minimumHeightSite.addListener(hideLargeWebsiteContent) // Attach listener function on state changes
+minimumWidthSite.addListener(hideLargeWebsiteContent) // Attach listener function on state changes
+
+function hideLargeWebMobileContent(minimumHeight, minimumWidth) {
+  if (minimumHeight.matches) { // If media query matches
+    document.getElementById("mainMobileContainer").style.display = "block";
+  }else{
+  	document.getElementById("mainMobileContainer").style.display = "none";	
+  }
+
+  if (minimumWidth.matches) { // If media query matches
+    document.getElementById("mainMobileContainer").style.display = "block";
+  }else{
+  	document.getElementById("mainMobileContainer").style.display = "none";	
+  }
+}
+
+var minimumHeightMobile = window.matchMedia("(max-height: 580px)")
+var minimumWidthMobile = window.matchMedia("(max-width: 992px)")
+removeFooterBelowHeight(minimumHeightMobile,minimumWidthMobile) // Call listener function at run time
+minimumHeightMobile.addListener(hideLargeWebMobileContent) // Attach listener function on state changes
+minimumWidthMobile.addListener(hideLargeWebMobileContent) // Attach listener function on state changes
+
+//////////////////////////////////////////////////////////
+
+var fullCloseArray = [{% for currency in all_currencies %} '{{ currency.Close }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+var fullHighArray = [{% for currency in all_currencies %} '{{ currency.High }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+var fullLowArray = [{% for currency in all_currencies %} '{{ currency.Low }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+var fullOpenArray = [{% for currency in all_currencies %} '{{ currency.Open }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+var fullMovingAverage = [{% for currency in all_currencies %} '{{ currency.MovingAverage }}' {% if not forloop.last %}, {% endif %} {% endfor %} ]
+
+var startCandleCount = 200;
+var currentCandleCount = startCandleCount + 55;
+var maxCandleCount = currentCandleCount + 20;
+
+var closeArray = fullCloseArray.slice(startCandleCount,currentCandleCount);
+var highArray = fullHighArray.slice(startCandleCount,currentCandleCount);
+var lowArray = fullLowArray.slice(startCandleCount,currentCandleCount);
+var openArray = fullOpenArray.slice(startCandleCount,currentCandleCount);
+var MovingAverage = fullMovingAverage.slice(startCandleCount,currentCandleCount);
+
+
+function buildPlotly(){
+	//JAVASCRIPT CHART. 
+	var trace1 = {
+	  
+	  x: [0]*currentCandleCount, 
+	  
+	  close: closeArray, 
+	  
+	  decreasing: {line: {color: '#7F7F7F'}}, 
+	  
+	  high: highArray, 
+	  
+	  increasing: {line: {color: '#17BECF'}}, 
+	  
+	  line: {color: 'rgba(31,119,180,1)'}, 
+	  
+	  low: lowArray, 
+	  
+	  open: openArray, 
+	  
+	  type: 'candlestick', 
+	  xaxis: 'x', 
+	  yaxis: 'y',
+	  hoverinfo: "none",
+	  increasing: {line: {color: 'green'}},
+  	  decreasing: {line: {color: 'red'}},
+	};
+
+	trace2 = {
+	  line: {width: 1}, 
+	  mode: 'lines', 
+	  name: 'Moving Average', 
+	  type: 'scatter', 
+	  x: [0]*currentCandleCount,
+	  y: MovingAverage, 
+	  yaxis: 'y',
+	  marker: {color: '#E377C2'},
+	  hoverinfo: "none",
+	};
+
+	var plotlyData = [trace1,trace2];
+
+	var layout = {
+	  dragmode: 'zoom', 
+	  margin: {
+	    r: 10, 
+	    t: 25, 
+	    b: 40, 
+	    l: 60
+	  }, 
+	  showlegend: false, 
+	  xaxis: {
+	    autorange: true, 
+	    domain: [0, 1], 
+	    type: 'category',
+	    rangeslider: {
+			 visible: false
+		 }
+	  }, 
+	  dragmode: "pan",
+	  yaxis: {
+	    type: 'linear',
+	    autorange: true
+	  },
+	  title: "Currency",
+	};
+
+	var config = {
+		'scrollZoom': true,
+	};
+
+	Plotly.plot('IndexChartToolDiv', plotlyData, layout, config = config);
+
+}
+
+buildPlotly();
+
+function getSpread(Symbol){ //REVISA ESTO BIEN y hazlo
+	if(Symbol == "USDCHF"){
+		spread = 0.00020
+	}
+
+	return spread;
+}
+
+
+var balance = 0;
+var lots = 0; //WILL LEAVE THIS UNTIL AFTER THE MVP
+function clickedToolBuyButton(){
+	var prevPrice = closeArray[closeArray.length -1];
+
+	if (currentCandleCount <= maxCandleCount){
+		currentCandleCount += 1;
+
+		closeArray = fullCloseArray.slice(startCandleCount,currentCandleCount);
+		highArray = fullHighArray.slice(startCandleCount,currentCandleCount);
+		lowArray = fullLowArray.slice(startCandleCount,currentCandleCount);
+		openArray = fullOpenArray.slice(startCandleCount,currentCandleCount);
+		MovingAverage = fullMovingAverage.slice(startCandleCount,currentCandleCount);
+
+		buildPlotly();
+
+		var newPrice = closeArray[closeArray.length-1];
+
+		balance += newPrice - prevPrice - getSpread("USDCHF");
+
+		document.getElementById("IndexBalance").innerHTML = "Your balance is: " + balance.toFixed(5) + " pips";
+	} else{
+		document.getElementById("IndexBalance").innerHTML = "Your final balance was: " + balance.toFixed(5) + " pips";
+	}
+
+	//document.getElementById("MyElement").className = "MyClass"; To change Sell Button color
+
+
+
+}
+
+function clickedToolSellButton(){
+	var prevPrice = closeArray[closeArray.length -1];
+
+	if (currentCandleCount <= maxCandleCount){
+		currentCandleCount += 1;
+
+		closeArray = fullCloseArray.slice(startCandleCount,currentCandleCount);
+		highArray = fullHighArray.slice(startCandleCount,currentCandleCount);
+		lowArray = fullLowArray.slice(startCandleCount,currentCandleCount);
+		openArray = fullOpenArray.slice(startCandleCount,currentCandleCount);
+		MovingAverage = fullMovingAverage.slice(startCandleCount,currentCandleCount);
+
+		buildPlotly();
+
+		var newPrice = closeArray[closeArray.length-1];
+
+		balance += prevPrice - newPrice - getSpread("USDCHF");
+
+		document.getElementById("IndexBalance").innerHTML = "Your balance is: " + balance.toFixed(5) + " pips";
+	} else{
+		document.getElementById("IndexBalance").innerHTML = "Your final balance was: " + balance.toFixed(5) + " pips";
+	}
+}
+
+function clickedToolWaitButton(){
+	currentCandleCount += 1
+
+	closeArray = fullCloseArray.slice(startCandleCount,currentCandleCount);
+	highArray = fullHighArray.slice(startCandleCount,currentCandleCount);
+	lowArray = fullLowArray.slice(startCandleCount,currentCandleCount);
+	openArray = fullOpenArray.slice(startCandleCount,currentCandleCount);
+	MovingAverage = fullMovingAverage.slice(startCandleCount,currentCandleCount);
+
+	buildPlotly();
+}
+
+
+
+
+
+</script>
+

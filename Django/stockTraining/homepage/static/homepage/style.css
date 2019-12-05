@@ -1,0 +1,27 @@
+body{
+	background: #FDFDFD;
+	font-family: "Helvetica","Times New Roman", Times, serif;
+}
+
+.navbar{
+	margin: 10px;
+	border-radius: 5px;
+	border-bottom: 1px solid grey;
+	border-top: 1px solid grey;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  /* Set the fixed height of the footer here */
+  border-top: 1px solid grey;
+  width: 100vw;
+  display: none;
+  height: 88px;
+  margin-bottom: -10px;
+  background-color: white;
+}
+
+.modebar {
+display: none !important;
+}

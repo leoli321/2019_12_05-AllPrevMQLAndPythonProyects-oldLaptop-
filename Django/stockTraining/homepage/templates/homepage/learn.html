@@ -1,0 +1,272 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+	<link rel="stylesheet" type="text/css" href="{% static 'homepage/style.css' %}">
+    <title>FxTrain</title>
+
+
+    
+  </head>
+<body style="">
+	<div class="wrapper fluid" style="">
+
+		<main role = "main" class="container" id="mainSiteContainer" style="background-color: #FDFDFD; border-left: 10px; border-right: 10px; border-style: solid; border-color: #BCBCBC;">
+	  			<div class="row">
+					<nav class="navbar navbar-expand-lg navbar-light" style="width: 100%">
+					  <a class="navbar-brand" href="/" >
+					  	<img src="{% static 'homepage/images/FxTrainLogoTransp.svg' %}" width="120" height="100" alt=""/>
+					  </a>
+					  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					    <span class="navbar-toggler-icon"></span>
+					  </button>
+
+					  <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-top: 10px;">
+					    <ul class="navbar-nav mr-auto">
+					      <li class="nav-item active">
+					        <a class="nav-link" href="train"><h5 style="color: #333333">Train</h5> <span class="sr-only">(current)</span></a>
+					      </li>
+					      <li class="nav-item active">
+					        <a class="nav-link" href="compete"><h5 style="color: #333333">Compete</h5> <span class="sr-only">(current)</span></a>
+					      </li>
+					      <li class="nav-item active">
+					        <a class="nav-link" href="learn"><h5 style="color: #333333">Learn</h5> <span class="sr-only">(current)</span></a>
+					      </li>
+					      <li class="nav-item active">
+					        <a class="nav-link" href="#"><h5 style="color: #333333">Pricing</h5> <span class="sr-only">(current)</span></a>
+					      </li>
+						  <li class="nav-item active">
+					        <a class="nav-link" href="#"><h5 style="color: #333333">Help us!</h5><span class="sr-only">(current)</span></a>
+					      </li>
+			            <form action="#" onsubmit = "handle" class="search-form" style="margin-top: 3px;">
+			                <div class="form-group has-feedback">
+			            		<label for="search" class="sr-only">Search</label>
+			            		<input type="text" class="form-control" name="search" id="search" placeholder="search">
+			              		<span class="glyphicon glyphicon-search form-control-feedback"></span>
+			            	</div>
+			            </form>
+						  <li class="nav-item active border-right" style="margin-top: 3px;">
+					        <a class="nav-link" href="#"><h6>Sign In</h6><span class="sr-only">(current)</span></a>
+					      </li>
+						  <li class="nav-item active">
+					        <button class="btn btn-outline-primary" type="submit" style="border-radius: 5px; border-color: #00B7C0;  margin-top: 2px; margin-left: 10px;">Register</button>
+					      </li>
+
+					    </ul>
+
+					  </div>
+					</nav>
+	  			</div> 
+
+			<div class="row">
+
+			      <!-- Blog Entries Column -->
+			      <div class="col-md-8">
+
+			        <h1 class="my-4" style="text-align: center;">Most recent
+			        </h1>
+
+			        <!-- Blog Post -->
+			        <div class="card mb-4">
+						<div class="embed-responsive embed-responsive-16by9">
+						  <iframe width="1007" height="480" src="https://www.youtube.com/embed/JTE-bgtrFsU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+						</div>			          
+					<div class="card-body">
+			            <h2 class="card-title">Commodities technical analysis</h2>
+			            <p class="card-text"></p>
+			          </div>
+			          <div class="card-footer text-muted">
+			            Posted on October 27, 2019 by
+			            <a href="#">The chart guys</a>
+			          </div>
+			        </div>
+
+			        <!-- Blog Post -->
+			        <div class="card mb-4">
+						<div class="embed-responsive embed-responsive-16by9">
+						  <iframe width="1007" height="480" src="https://www.youtube.com/embed/g34fC43cdOI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+						</div>	
+			          <div class="card-body">
+			            <h2 class="card-title">Bitcoin new scenario</h2>
+			            <p class="card-text"></p>
+			          </div>
+			          <div class="card-footer text-muted">
+			            Posted on October 27, 2019 by
+			            <a href="#">Alessio Rastani</a>
+			          </div>
+			        </div>
+
+			        <!-- Blog Post -->
+			        <div class="card mb-4">
+						<div class="embed-responsive embed-responsive-16by9">
+						  <iframe width="1007" height="480" src="https://www.youtube.com/embed/op56QX3wjac" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+						</div>	
+			          <div class="card-body">
+			            <h2 class="card-title">TradingView Bonus Tips</h2>
+			            <p class="card-text"></p>
+			            <a href="#" class="btn btn-primary">Read More &rarr;</a> 
+			          </div>
+			          <div class="card-footer text-muted">
+			            Posted on October 27, 2019 by
+			            <a href="#">Rayner Teo</a>
+			          </div>
+			        </div>
+
+			        <!-- Pagination -->
+			        <ul class="pagination justify-content-center mb-4">
+			          <li class="page-item">
+			            <a class="page-link" href="#">&larr; Older</a>
+			          </li>
+			          <li class="page-item disabled">
+			            <a class="page-link" href="#">Newer &rarr;</a>
+			          </li>
+			        </ul>
+
+			      </div>
+
+			      <!-- Sidebar Widgets Column -->
+			      <div class="col-md-4">
+
+			        <!-- Search Widget -->
+			        <div class="card my-4">
+			          <h5 class="card-header">Search</h5>
+			          <div class="card-body">
+			            <div class="input-group">
+			              <input type="text" class="form-control" placeholder="Search for...">
+			              <span class="input-group-btn">
+			                <button class="btn btn-secondary" type="button">Go!</button>
+			              </span>
+			            </div>
+			          </div>
+			        </div>
+
+			        <!-- Categories Widget -->
+			        <div class="card my-4">
+			          <h5 class="card-header">Categories</h5>
+			          <div class="card-body">
+			            <div class="row">
+			              <div class="col-lg-6">
+			                <ul class="list-unstyled mb-0">
+			                  <li>
+			                    <a href="#">Finance</a>
+			                  </li>
+			                  <li>
+			                    <a href="#">Fundamentals</a>
+			                  </li>
+			                  <li>
+			                    <a href="#">Patterns</a>
+			                  </li>
+			                </ul>
+			              </div>
+			              <div class="col-lg-6">
+			                <ul class="list-unstyled mb-0">
+			                  <li>
+			                    <a href="#">Systems</a>
+			                  </li>
+			                  <li>
+			                    <a href="#">Tutorials</a>
+			                  </li>
+							  <li>
+			                    <a href="#">News</a>
+			                  </li>
+			                </ul>
+			              </div>
+			            </div>
+			          </div>
+			        </div>
+
+			      </div>
+
+			    </div>
+			    <!-- /.row -->
+			
+
+			
+		</main>
+	</div>
+
+
+			    <!-- Optional JavaScript -->
+	    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	    <script src="https://cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js" type="text/javascript"></script>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+
+		<!-- Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+
+
+	</body>
+</html>
+
+
+
+<script>
+
+var minimumHeight = window.matchMedia("(max-height: 580px)")
+var minimumWidth = window.matchMedia("(max-width: 992px)")
+
+function hideLargeWebsiteContent(minimumHeight, minimumWidth) {
+  if (minimumHeight.matches) { // If media query matches
+    document.getElementById("mainSiteContainer").style.display = "none";
+  }else{
+  	document.getElementById("mainSiteContainer").style.display = "block";	
+  }
+
+  if (minimumWidth.matches) { // If media query matches
+    document.getElementById("mainSiteContainer").style.display = "none";
+  }else{
+  	document.getElementById("mainSiteContainer").style.display = "block";	
+  }
+}
+var minimumHeightSite = window.matchMedia("(max-height: 580px)");
+var minimumWidthSite = window.matchMedia("(max-width: 992px)");
+minimumHeightSite.addListener(hideLargeWebsiteContent); // Attach listener function on state changes
+minimumWidthSite.addListener(hideLargeWebsiteContent); // Attach listener function on state changes
+
+function hideLargeWebMobileContent(minimumHeight, minimumWidth) {
+  if (minimumHeight.matches) { // If media query matches
+    document.getElementById("mainMobileContainer").style.display = "block";
+  }else{
+  	document.getElementById("mainMobileContainer").style.display = "none";	
+  }
+
+  if (minimumWidth.matches) { // If media query matches
+    document.getElementById("mainMobileContainer").style.display = "block";
+  }else{
+  	document.getElementById("mainMobileContainer").style.display = "none";	
+  }
+}
+
+var minimumHeightMobile = window.matchMedia("(max-height: 580px)")
+var minimumWidthMobile = window.matchMedia("(max-width: 992px)")
+minimumHeightMobile.addListener(hideLargeWebMobileContent) // Attach listener function on state changes
+minimumWidthMobile.addListener(hideLargeWebMobileContent) // Attach listener function on state changes
+
+
+
+///////////////
+
+</script>
+
+<style>
+	body{
+background:
+radial-gradient(black 15%, transparent 16%) 0 0,
+radial-gradient(black 15%, transparent 16%) 8px 8px,
+radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+background-color:#282828;
+background-size:16px 16px;
+	}
+
+
+</style>
