@@ -51,7 +51,7 @@ defusedxml==0.6.0
 diff-match-patch==20181111
 distributed==2.5.2
 dj-database-url==0.5.0
-Django==2.2.6
+Django==2.2.24
 django-import-export==1.2.0
 docutils==0.15.2
 easygui==0.98.1
